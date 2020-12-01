@@ -52,10 +52,15 @@ namespace fc {
     info.mapper_number = (buffer.flags7&0xf0) | (buffer.flags6>>4);
 
     // 根据 flags 设置 info 剩余的几个属性
-    if (buffer.flags6 & 0x08) info.is_four_sreen = true;
-    if (buffer.flags6 & 0x04) info.have_trainer = true;
-    if (buffer.flags6 & 0x02) info.have_sram = true;
-    if (buffer.flags6 & 0x01) info.is_vertical = true;
+    info.is_four_sreen = buffer.flags6 & 0x08;
+    info.have_trainer  = buffer.flags6 & 0x04;
+    info.have_sram     = buffer.flags6 & 0x02;
+    info.is_vertical   = buffer.flags6 & 0x01;
+
+    // 继续读取 ROM 镜像文件
+    // TODO: 暂时跳过 Trainer
+    if (info.have_trainer) fseek(fp, 512, SEEK_CUR);
+    fread(memory, prg_rom_size + chr_rom_size, 1, fp);
   }
 
   nes_rom_info& nes_rom_handler::get_info() {
