@@ -7,13 +7,14 @@ namespace fc {
 
   void nes_rom_info::show_info() {
     printf(
-      "PRG-ROM大小: \t\t%d * 16K\n"
-      "CHR-ROM大小: \t\t%d * 8K\n"
-      "Mapper编号: \t\t%d\n"
-      "是否为四屏幕: \t\t%c\n"
-      "是否拥有Trainer: \t%c\n"
-      "是否拥有SRAM: \t\t%c\n"
-      "是否为垂直镜像: \t%c\n",
+      "ROM 信息:\n"
+      " PRG-ROM大小:     %d * 16K\n"
+      " CHR-ROM大小:     %d * 8K\n"
+      " Mapper编号:      %d\n"
+      " 是否为四屏幕:    %c\n"
+      " 是否拥有Trainer: %c\n"
+      " 是否拥有SRAM:    %c\n"
+      " 是否为垂直镜像:  %c\n",
 
       prg_rom_count,
       chr_rom_count,
