@@ -73,7 +73,7 @@ namespace fc
     // 解析 buffer 中的内容为 nes_header_info，同时申请内存空间
     void parse_to_info();
     // 返回内部的 nes_header_info
-    nes_rom_info& get_info();
+    nes_rom_info* get_info();
     // 卸载当前的镜像
     void unload_image();
   };

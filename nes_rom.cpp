@@ -63,8 +63,8 @@ namespace fc {
     fread(memory, prg_rom_size + chr_rom_size, 1, fp);
   }
 
-  nes_rom_info& nes_rom_handler::get_info() {
-    return this->info;
+  nes_rom_info* nes_rom_handler::get_info() {
+    return &this->info;
   }
 
   void nes_rom_handler::unload_image() {

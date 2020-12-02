@@ -1,20 +1,18 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
-#include "include/nes_rom.h"
+#include "include/simulator.h"
 
 int main(int argc, char const *argv[])
 {
-  fc::nes_rom_handler rom_handler;
+  fc::simulator simulator;
   
   if (argc == 2) {
-    rom_handler.load_image(argv[1]);
-    rom_handler.parse_to_info();
-    rom_handler.get_info().show_info();
+    simulator.load_rom(argv[1]);
   } else {
     assert(!"请提供参数");
   }
 
-  rom_handler.unload_image();
+  simulator.free_rom();
   return 0;
 }
