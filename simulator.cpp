@@ -2,7 +2,7 @@
 
 namespace fc
 {
-  simulator::simulator() {}
+  simulator::simulator(): cpu(&memory_pool) {}
 
   void simulator::load_rom(const char* path) {
     rom_handler.load_image(path);

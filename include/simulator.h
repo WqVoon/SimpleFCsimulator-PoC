@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "./nes_rom.h"
+#include "./nes_cpu.h"
 #include "./nes_nrom_mapper.h"
 #include "./nes_memory_pool.h"
 
@@ -23,6 +24,9 @@ namespace fc
     nes_rom_handler rom_handler;
     // 用来读写内存
     nes_memory_pool memory_pool;
+    // 用来解释和执行指令
+    nes_cpu cpu;
+
   public:
     // Constructor，初始化一些状态
     simulator();
@@ -32,6 +36,8 @@ namespace fc
     void free_rom();
     // 获取内存池对象
     nes_memory_pool& get_memory_pool() { return memory_pool; }
+    // 获取 cpu 对象
+    nes_cpu& get_cpu() { return cpu; }
   };
 }
 
