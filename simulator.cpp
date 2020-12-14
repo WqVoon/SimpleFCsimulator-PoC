@@ -2,7 +2,7 @@
 
 namespace fc
 {
-  simulator::simulator(): cpu(&memory_pool) {}
+  simulator::simulator() {}
 
   void simulator::load_rom(const char* path) {
     rom_handler.load_image(path);
@@ -10,8 +10,9 @@ namespace fc
     rom_info = rom_handler.get_info();
     // TODO: 暂时传递 NULL，后面会根据 mapper_number 来传递具体的 mapper 实例
     memory_pool.init(rom_info, mappers[rom_info->mapper_number]);
+    cpu.init(&memory_pool);
 
-    rom_info->show_info();
+    // rom_info->show_info();
   }
 
   void simulator::free_rom() {

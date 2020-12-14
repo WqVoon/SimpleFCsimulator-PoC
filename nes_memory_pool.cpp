@@ -5,20 +5,20 @@
 namespace fc
 {
   void nes_memory_pool::init(nes_rom_info* rom_info, nes_mapper* mapper) {
-    puts("Banks (before mapper reset):");
-    for (int i=0; i<8; i++) {
-      printf(" idx(%d): %p\n", i, banks[i]);
-    }
+    // puts("Banks (before mapper reset):");
+    // for (int i=0; i<8; i++) {
+    //   printf(" idx(%d): %p\n", i, banks[i]);
+    // }
 
     banks[0] = main_memory;
     banks[3] = sram_memory;
 
     if (mapper) mapper->reset(rom_info, banks);
 
-    puts("Banks (after mapper reset):");
-    for (int i=0; i<8; i++) {
-      printf(" idx(%d): %p\n", i, banks[i]);
-    }
+    // puts("Banks (after mapper reset):");
+    // for (int i=0; i<8; i++) {
+    //   printf(" idx(%d): %p\n", i, banks[i]);
+    // }
   }
 
   uint8_t nes_memory_pool::read(uint16_t addr) {
