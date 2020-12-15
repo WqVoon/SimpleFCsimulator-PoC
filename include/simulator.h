@@ -38,6 +38,7 @@ namespace fc
     nes_memory_pool& get_memory_pool() { return memory_pool; }
     // 获取 cpu 对象
     nes_cpu& get_cpu() { return cpu; }
+    // 输出当前寄存器的值
   };
 }
 

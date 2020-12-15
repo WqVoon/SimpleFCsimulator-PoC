@@ -57,6 +57,35 @@ namespace fc
       uint8_t unused;
     } registers;
 
+    // 未知寻址模式
+    uint16_t address_unk();
+    // TODO: 累加器寻址(是否需要实现？)
+    uint16_t address_acc();
+    // TODO: 隐含寻址模式(是否需要实现？)
+    uint16_t address_imp();
+    // 立即数寻址模式
+    uint16_t address_imm();
+    // 绝对寻址
+    uint16_t address_abs();
+    // 绝对X变址
+    uint16_t address_abx();
+    // 绝对Y变址
+    uint16_t address_aby();
+    // 零页寻址
+    uint16_t address_zpg();
+    // 零页X变址
+    uint16_t address_zpx();
+    // 零页Y变址
+    uint16_t address_zpy();
+    // 间接X变址
+    uint16_t address_inx();
+    // 间接Y变址
+    uint16_t address_iny();
+    // 间接寻址
+    uint16_t address_ind();
+    // 相对寻址
+    uint16_t address_rel();
+
   public:
     // 四种中断向量
     static const uint16_t NMI_VECTOR    = 0xfffa;
@@ -66,6 +95,8 @@ namespace fc
     void init(nes_memory_pool* mp);
     // 按地址反汇编一条指令，当前暴力读取3个字节
     void disassemble_op(uint16_t addr, char buf[]);
+    // 输出当前寄存器的值和状态寄存器的标记
+    void output_registers_and_flags();
   };
 }
 
