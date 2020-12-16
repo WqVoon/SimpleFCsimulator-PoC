@@ -15,8 +15,9 @@ int main(int argc, char const *argv[])
     puts("\nInsts:");
     do {
       char buf[OP_BUF_LEN] = {0};
-      fc.get_cpu().disassemble_op((uint16_t) 0xc000, buf);
-      puts(buf);
+      fc.get_cpu().disassemble_op(fc.get_cpu().get_pc(), buf);
+      printf("STR : %s\n", buf);
+      fc.get_cpu().execute();
     } while (getchar());
 
   } else {

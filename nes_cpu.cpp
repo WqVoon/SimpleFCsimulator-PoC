@@ -5,6 +5,14 @@
 #include "include/nes_utils.h"
 #include "include/nes_memory_pool.h"
 
+// 用来简化 case 的排列
+#define OP(n, a, o)\
+case 0x##n:\
+{\
+  operate_##o(address_##a());\
+  break;\
+}
+
 namespace fc
 {
   void nes_cpu::init(nes_memory_pool* mp) {
@@ -20,6 +28,23 @@ namespace fc
 
     // 测试用
     registers.program_counter = 0xc000;
+  }
+
+  void nes_cpu::execute() {
+    const uint8_t opcode = memory->read(registers.program_counter++);
+    switch (opcode) {
+      OP(4C, abs, jmp)
+      OP(A2, imm, ldx)
+      default: assert(! "尚未实现的指令");
+    }
+  }
+
+  void nes_cpu::check_zf_and_sf(uint8_t data) {
+    if (! data) {
+      registers.status |= SFC_FLAG_Z;
+    } else if (data & (uint8_t)0x80) {
+      registers.status |= SFC_FLAG_S;
+    }
   }
 
   void nes_cpu::disassemble_op(uint16_t addr, char buf[]) {
@@ -45,6 +70,24 @@ namespace fc
     output_registers_and_flags();
 
     disassemble(code, buf+6);
+  }
+
+  void nes_cpu::output_registers_and_flags() {
+    printf(
+      "PC:%04X ACC:%02X X:%02X Y:%02X SP:%02X "
+      "(CF:%d ZF:%d IF:%d BF:%d OF:%d SF:%d)\n",
+      registers.program_counter,
+      registers.accumulator,
+      registers.x_index,
+      registers.y_index,
+      registers.stack_pointer,
+      (registers.status & SFC_FLAG_C) == SFC_FLAG_C,
+      (registers.status & SFC_FLAG_Z) == SFC_FLAG_Z,
+      (registers.status & SFC_FLAG_I) == SFC_FLAG_I,
+      (registers.status & SFC_FLAG_B) == SFC_FLAG_B,
+      (registers.status & SFC_FLAG_V) == SFC_FLAG_V,
+      (registers.status & SFC_FLAG_S) == SFC_FLAG_S
+    );
   }
 
   uint16_t nes_cpu::address_unk() {
@@ -131,22 +174,13 @@ namespace fc
     return address;
   }
 
-  void nes_cpu::output_registers_and_flags() {
-    printf(
-      "PC:%04X ACC:%02X X:%02X Y:%02X SP:%02X "
-      "(CF:%d ZF:%d IF:%d BF:%d OF:%d SF:%d)\n",
-      registers.program_counter,
-      registers.accumulator,
-      registers.x_index,
-      registers.y_index,
-      registers.stack_pointer,
-      (registers.status & SFC_INDEX_C) == SFC_FLAG_C,
-      (registers.status & SFC_INDEX_Z) == SFC_FLAG_Z,
-      (registers.status & SFC_INDEX_I) == SFC_FLAG_I,
-      (registers.status & SFC_INDEX_B) == SFC_FLAG_B,
-      (registers.status & SFC_INDEX_V) == SFC_FLAG_V,
-      (registers.status & SFC_INDEX_S) == SFC_FLAG_S
-    );
+  void nes_cpu::operate_jmp(uint16_t address) {
+    registers.program_counter = address;
+  }
+
+  void nes_cpu::operate_ldx(uint16_t address) {
+    registers.x_index = memory->read(address);
+    check_zf_and_sf(registers.x_index);
   }
 
 }

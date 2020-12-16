@@ -57,6 +57,9 @@ namespace fc
       uint8_t unused;
     } registers;
 
+    // 根据操作数来判断是否需要为 ZF 和 SF 置位
+    void check_zf_and_sf(uint8_t);
+
     // 未知寻址模式
     uint16_t address_unk();
     // TODO: 累加器寻址(是否需要实现？)
@@ -85,6 +88,10 @@ namespace fc
     uint16_t address_ind();
     // 相对寻址
     uint16_t address_rel();
+    // JMP 指令
+    void operate_jmp(uint16_t);
+    // LDX 指令
+    void operate_ldx(uint16_t);
 
   public:
     // 四种中断向量
@@ -93,10 +100,14 @@ namespace fc
     static const uint16_t IRQBRK_VECTOR = 0xfffe;
 
     void init(nes_memory_pool* mp);
+    // 执行当前 PC 指向的指令
+    void execute();
     // 按地址反汇编一条指令，当前暴力读取3个字节
     void disassemble_op(uint16_t addr, char buf[]);
     // 输出当前寄存器的值和状态寄存器的标记
     void output_registers_and_flags();
+    // 获取当前 PC 寄存器中的值
+    uint16_t get_pc() { return registers.program_counter; }
   };
 }
 
