@@ -19,6 +19,7 @@ namespace fc
   */
   class nes_memory_pool
   {
+  friend class nes_cpu;
   private:
     // 小霸王的 2k 主要内存
     uint8_t main_memory[2 * 1024] = {0};

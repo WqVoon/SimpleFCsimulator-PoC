@@ -1,3 +1,4 @@
+#include <cstdio>
 #include "include/nes_6502.h"
 #include "include/nes_utils.h"
 
@@ -159,7 +160,7 @@ namespace fc
     { 'S', 'A', 'X', SFC_AM_ZPG },
     { 'D', 'E', 'Y', SFC_AM_IMP },
     { 'N', 'O', 'P', SFC_AM_IMM },
-    { 'T', 'A', 'X', SFC_AM_IMP },
+    { 'T', 'X', 'A', SFC_AM_IMP },
     { 'X', 'X', 'A', SFC_AM_IMM },
     { 'S', 'T', 'Y', SFC_AM_ABS },
     { 'S', 'T', 'A', SFC_AM_ABS },
@@ -286,7 +287,8 @@ namespace fc
     { 'I', 'S', 'B', SFC_AM_ABX },
   };
 
-  void disassemble(nes_code code, char buf[]) {
+  uint8_t disassemble(nes_code code, char buf[]) {
+    uint8_t length = 0;
     const nes_opname opname = nes_opname_data[code.op];
     buf[0] = opname.name[0];
     buf[1] = opname.name[1];
@@ -295,15 +297,18 @@ namespace fc
     switch (opname.mode) {
     case SFC_AM_UNK:
     case SFC_AM_IMP:
+      length = 1;
       break;
 
     case SFC_AM_ACC:
       // INS A
+      length = 1;
       buf[4] = 'A';
       break;
 
     case SFC_AM_IMM:
       // INS #$AB
+      length = 2;
       buf[4] = '#';
       buf[5] = '$';
       btoh(buf+6, code.a1);
@@ -315,6 +320,7 @@ namespace fc
       // INS #$ABCD, X
     case SFC_AM_ABY:
       // INS #$ABCD, Y
+      length = 3;
       buf[4] = '#';
       buf[5] = '$';
       btoh(buf+6, code.a2);
@@ -330,6 +336,7 @@ namespace fc
       // INS $AB, X
     case SFC_AM_ZPY:
       // INS $AB, Y
+      length = 2;
       buf[4] = '$';
       btoh(buf+5, code.a1);
       if (opname.mode == SFC_AM_ZPG) break;
@@ -339,6 +346,7 @@ namespace fc
 
     case SFC_AM_INX:
       // INS ($AB, X)
+      length = 2;
       buf[4] = '(';
       buf[5] = '$';
       btoh(buf+6, code.a1);
@@ -349,6 +357,7 @@ namespace fc
 
     case SFC_AM_INY:
       // INS ($AB), Y
+      length = 2;
       buf[4] = '(';
       buf[5] = '$';
       btoh(buf+6, code.a1);
@@ -359,6 +368,7 @@ namespace fc
 
     case SFC_AM_IND:
       // INS ($ABCD)
+      length = 3;
       buf[4] = '(';
       buf[5] = '$';
       btoh(buf+6, code.a2);
@@ -367,13 +377,18 @@ namespace fc
       break;
 
     case SFC_AM_REL:
-      // TODO: 实现其他的表示方式
+      // 以十六进制表示，实际区分正负
       // INS $AB
+      length = 2;
       buf[4] = '$';
       btoh(buf+5, code.a1);
       buf[7] = '(';
-      buf[8] = ')';
+      buf[8] = '+';
+      buf[9] = 'P';
+      buf[10] = 'C';
+      buf[11] = ')';
       break;
     }
+    return length;
   }
 }

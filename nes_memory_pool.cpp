@@ -39,5 +39,22 @@ namespace fc
   }
 
   void nes_memory_pool::write(uint16_t addr, uint8_t data) {
+    switch (addr >> 13) {
+    case 0:
+      // TODO: 这里是否需要地址的映射？
+      main_memory[addr & (uint16_t)0x07ff] = data;
+      return;
+    case 1:
+      assert(!"未实现");
+    case 2:
+      assert(!"未实现");
+    case 3:
+      sram_memory[addr & (uint16_t)0x1fff] = data;
+      return;
+    case 4: case 5: case 6: case 7:
+      banks[addr >> 13][addr & (uint16_t)0x1fff] = data;
+      return;
+    }
+    assert(!"无效的地址");
   }
 }

@@ -41,8 +41,8 @@ namespace fc
   };
 
 
-  // 根据指令来反汇编，并将结果写入到 buf 中
-  void disassemble(nes_code code, char buf[]);
+  // 根据 code 参数来把对应的助记符写入到 buf 中，同时返回该指令的长度
+  uint8_t disassemble(nes_code code, char buf[]);
 }
 
 #endif
