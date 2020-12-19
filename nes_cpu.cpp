@@ -34,103 +34,230 @@ namespace fc
     const uint8_t opcode = memory->read(registers.program_counter++);
     switch (opcode) {
       OP(01, inx, ora)
+      OP(03, inx, slo)
+      OP(04, zpg, nop)
       OP(05, zpg, ora)
       OP(06, zpg, asl)
+      OP(07, zpg, slo)
+      OP(0C, abs, nop)
+      OP(0F, abs, slo)
       OP(08, imp, php)
       OP(09, imm, ora)
       OP(0A, acc, asla)
       OP(0D, abs, ora)
       OP(0E, abs, asl)
       OP(10, rel, bpl)
+      OP(11, iny, ora)
+      OP(13, iny, slo)
+      OP(14, zpx, nop)
+      OP(15, zpx, ora)
+      OP(16, zpx, asl)
+      OP(17, zpx, slo)
       OP(18, imp, clc)
+      OP(19, aby, ora)
+      OP(1A, imp, nop)
+      OP(1B, aby, slo)
+      OP(1C, abx, nop)
+      OP(1D, abx, ora)
+      OP(1E, abx, asl)
+      OP(1F, abx, slo)
       OP(20, abs, jsr)
       OP(21, inx, and)
+      OP(23, inx, rla)
       OP(24, zpg, bit)
       OP(25, zpg, and)
       OP(26, zpg, rol)
+      OP(27, zpg, rla)
       OP(28, imp, plp)
       OP(29, imm, and)
       OP(2A, acc, rola)
       OP(2C, abs, bit)
       OP(2D, abs, and)
       OP(2E, abs, rol)
+      OP(2F, abs, rla)
       OP(30, rel, bmi)
+      OP(31, iny, and)
+      OP(33, iny, rla)
+      OP(34, zpx, nop)
+      OP(35, zpx, and)
+      OP(36, zpx, rol)
+      OP(37, zpx, rla)
       OP(38, imp, sec)
+      OP(39, aby, and)
+      OP(3A, imp, nop)
+      OP(3B, aby, rla)
+      OP(3C, abx, nop)
+      OP(3D, abx, and)
+      OP(3E, abx, rol)
+      OP(3F, abx, rla)
       OP(40, imp, rti)
       OP(41, inx, eor)
+      OP(43, inx, sre)
+      OP(44, zpg, nop)
       OP(45, zpg, eor)
       OP(46, zpg, lsr)
+      OP(47, zpg, sre)
       OP(48, imp, pha)
       OP(49, imm, eor)
       OP(4A, acc, lsra)
       OP(4C, abs, jmp)
       OP(4D, abs, eor)
       OP(4E, abs, lsr)
+      OP(4F, abs, sre)
       OP(50, rel, bvc)
+      OP(51, iny, eor)
+      OP(53, iny, sre)
+      OP(54, zpx, nop)
+      OP(55, zpx, eor)
+      OP(56, zpx, lsr)
+      OP(57, zpx, sre)
+      OP(59, aby, eor)
+      OP(5A, imp, nop)
+      OP(5B, aby, sre)
+      OP(5C, abx, nop)
+      OP(5D, abx, eor)
+      OP(5E, abx, lsr)
+      OP(5F, abx, sre)
       OP(60, imp, rts)
       OP(61, inx, adc)
+      OP(63, inx, rra)
+      OP(64, zpg, nop)
       OP(65, zpg, adc)
       OP(66, zpg, ror)
+      OP(67, zpg, rra)
       OP(68, imp, pla)
       OP(69, imm, adc)
       OP(6A, acc, rora)
+      OP(6C, ind, jmp)
       OP(6D, abs, adc)
       OP(6E, abs, ror)
+      OP(6F, abs, rra)
       OP(70, rel, bvs)
+      OP(71, iny, adc)
+      OP(73, iny, rra)
+      OP(74, zpx, nop)
+      OP(75, zpx, adc)
+      OP(76, zpx, ror)
+      OP(77, zpx, rra)
       OP(78, imp, sei)
+      OP(79, aby, adc)
+      OP(7A, imp, nop)
+      OP(7B, aby, rra)
+      OP(7C, abx, nop)
+      OP(7D, abx, adc)
+      OP(7E, abx, ror)
+      OP(7F, abx, rra)
+      OP(80, imm, nop)
       OP(81, inx, sta)
+      OP(83, inx, sax)
       OP(84, zpg, sty)
       OP(85, zpg, sta)
       OP(86, zpg, stx)
+      OP(87, zpg, sax)
       OP(88, imp, dey)
       OP(8A, imp, txa)
       OP(8D, abs, sta)
       OP(8C, abs, sty)
       OP(8E, abs, stx)
+      OP(8F, abs, sax)
       OP(90, rel, bcc)
+      OP(91, iny, sta)
+      OP(94, zpx, sty)
+      OP(95, zpx, sta)
+      OP(96, zpy, stx)
+      OP(97, zpy, sax)
       OP(98, imp, tya)
+      OP(99, aby, sta)
       OP(9A, imp, txs)
+      OP(9D, abx, sta)
       OP(A0, imm, ldy)
       OP(A1, inx, lda)
       OP(A2, imm, ldx)
+      OP(A3, inx, lax)
       OP(A4, zpg, ldy)
       OP(A5, zpg, lda)
       OP(A6, zpg, ldx)
+      OP(A7, zpg, lax)
       OP(A8, imp, tay)
       OP(A9, imm, lda)
       OP(AA, imp, tax)
       OP(AC, abs, ldy)
       OP(AD, abs, lda)
       OP(AE, abs, ldx)
+      OP(AF, abs, lax)
       OP(B0, rel, bcs)
+      OP(B1, iny, lda)
+      OP(B3, iny, lax)
+      OP(B4, zpx, ldy)
+      OP(B5, zpx ,lda)
+      OP(B6, zpy, ldx)
+      OP(B7, zpy, lax)
       OP(B8, imp, clv)
+      OP(B9, aby, lda)
       OP(BA, imp, tsx)
+      OP(BC, abx, ldy)
+      OP(BD, abx, lda)
+      OP(BE, aby, ldx)
+      OP(BF, aby, lax)
       OP(C0, imm, cpy)
       OP(C1, inx, cmp)
+      OP(C3, inx, dcp)
       OP(C4, zpg, cpy)
       OP(C5, zpg, cmp)
       OP(C6, zpg, dec)
+      OP(C7, zpg, dcp)
       OP(C8, imp, iny)
       OP(C9, imm, cmp)
       OP(CA, imp, dex)
       OP(CC, abs, cpy)
       OP(CD, abs, cmp)
       OP(CE, abs, dec)
+      OP(CF, abs, dcp)
       OP(D0, rel, bne)
+      OP(D1, iny, cmp)
+      OP(D3, iny, dcp)
+      OP(D4, zpx, nop)
+      OP(D5, zpx, cmp)
+      OP(D6, zpx, dec)
+      OP(D7, zpx, dcp)
       OP(D8, imp, cld)
+      OP(D9, aby, cmp)
+      OP(DA, imp, nop)
+      OP(DB, aby, dcp)
+      OP(DC, abx, nop)
+      OP(DD, abx, cmp)
+      OP(DE, abx, dec)
+      OP(DF, abx, dcp)
       OP(E0, imm, cpx)
       OP(E1, inx, sbc)
+      OP(E3, inx, isb)
       OP(E4, zpg, cpx)
       OP(E5, zpg, sbc)
       OP(E6, zpg, inc)
+      OP(E7, zpg, isb)
       OP(E8, imp, inx)
       OP(E9, imm, sbc)
       OP(EA, imp, nop)
+      OP(EB, imm, sbc)
       OP(EC, abs, cpx)
       OP(ED, abs, sbc)
       OP(EE, abs, inc)
+      OP(EF, abs, isb)
       OP(F0, rel, beq)
+      OP(F1, iny, sbc)
+      OP(F3, iny, isb)
+      OP(F4, zpx, nop)
+      OP(F5, zpx, sbc)
+      OP(F6, zpx, inc)
+      OP(F7, zpx, isb)
       OP(F8, imp, sed)
+      OP(F9, aby, sbc)
+      OP(FA, imp, nop)
+      OP(FB, aby, isb)
+      OP(FC, abx, nop)
+      OP(FD, abx, sbc)
+      OP(FE, abx, inc)
+      OP(FF, abx, isb)
       default: assert(! "尚未实现的指令");
     }
   }
@@ -333,6 +460,7 @@ namespace fc
 
   void nes_cpu::operate_lda(uint16_t address) {
     registers.accumulator = memory->read(address);
+    printf("Get data %X from %X\n", registers.accumulator, address);
     check_zf_and_sf(registers.accumulator);
   }
 
@@ -750,6 +878,142 @@ namespace fc
     --data;
     memory->write(address, data);
     check_zf_and_sf(data);
+  }
+
+  void nes_cpu::operate_lax(uint16_t address) {
+    const uint8_t data = memory->read(address);
+    registers.accumulator = data;
+    registers.x_index = data;
+    check_zf_and_sf(data);
+  }
+
+  void nes_cpu::operate_sax(uint16_t address) {
+    const uint16_t data
+      = registers.accumulator
+      & registers.x_index;
+    memory->write(address, data);
+  }
+
+  void nes_cpu::operate_dcp(uint16_t address) {
+    uint8_t data = memory->read(address);
+    --data;
+    memory->write(address, data);
+
+    // CMP
+    const uint16_t result16
+      = (uint16_t)registers.accumulator
+      - (uint16_t)data;
+    if (! (result16 & (uint16_t)0x8000)) {
+      registers.status |= SFC_FLAG_C;
+    } else {
+      registers.status &= ~SFC_FLAG_C;
+    }
+    check_zf_and_sf((uint8_t)result16);
+  }
+
+  void nes_cpu::operate_isb(uint16_t address) {
+    uint8_t data = memory->read(address);
+    ++data;
+    memory->write(address, data);
+
+    const uint16_t result16
+      = (uint16_t)registers.accumulator
+      - (uint16_t)data
+      - (registers.status & SFC_FLAG_C? 0: 1);
+    if (! (result16 >> 8)) {
+      registers.status |= SFC_FLAG_C;
+    } else {
+      registers.status &= ~SFC_FLAG_C;
+    }
+    const uint8_t result8 = (uint8_t)result16;
+    if (
+      ((registers.accumulator ^ data) & 0x80)
+      &&
+      ((registers.accumulator ^ result8) & 0x80)
+    ) {
+      registers.status |= SFC_FLAG_V;
+    } else {
+      registers.status &= ~SFC_FLAG_V;
+    }
+    registers.accumulator = result8;
+    check_zf_and_sf(result8);
+  }
+
+  void nes_cpu::operate_slo(uint16_t address) {
+    uint8_t data = memory->read(address);
+    if (data & (uint8_t)0x80) {
+      registers.status |= SFC_FLAG_C;
+    } else {
+      registers.status &= ~SFC_FLAG_C;
+    }
+    data <<= 1;
+    memory->write(address, data);
+
+    registers.accumulator |= data;
+    check_zf_and_sf(registers.accumulator);
+  }
+
+  void nes_cpu::operate_rla(uint16_t address) {
+    puts("Wahahahaha");
+    uint16_t result16 = memory->read(address);
+    result16 <<= 1;
+    result16 |= registers.status & SFC_FLAG_C;
+    if (result16 & (uint16_t)0x100) {
+      registers.status |= SFC_FLAG_C;
+    } else {
+      registers.status &= ~SFC_FLAG_C;
+    }
+    const uint8_t result8 = (uint8_t)result16;
+    memory->write(address, result8);
+
+    registers.accumulator &= result8;
+    check_zf_and_sf(registers.accumulator);
+  }
+
+  void nes_cpu::operate_sre(uint16_t address) {
+    uint8_t data = memory->read(address);
+    if (data & 1) {
+      registers.status |= SFC_FLAG_C;
+    } else {
+      registers.status &= ~SFC_FLAG_C;
+    }
+    data >>= 1;
+    memory->write(address, data);
+
+    registers.accumulator ^= data;
+    check_zf_and_sf(registers.accumulator);
+  }
+
+  void nes_cpu::operate_rra(uint16_t address) {
+    uint16_t result16 = memory->read(address);
+    result16 |= (registers.status & SFC_FLAG_C) << 8;
+    uint8_t tmp_cp = result16 & 1;
+    result16 >>= 1;
+    uint8_t result8 = (uint8_t)result16;
+    memory->write(address, result8);
+
+    const uint8_t src = result8;
+    result16
+      = (uint16_t)registers.accumulator
+      + (uint16_t)src
+      + tmp_cp;
+    if (result16 >> 8) {
+      registers.status |= SFC_FLAG_C;
+    } else {
+      registers.status &= ~SFC_FLAG_C;
+    }
+    result8 = (uint8_t)result16;
+    if (
+      !((registers.accumulator ^ src) & 0x80)
+      &&
+      ((registers.accumulator ^ result8) & 0x80)
+    ) {
+      registers.status |= SFC_FLAG_V;
+    } else {
+      registers.status &= ~SFC_FLAG_V;
+    }
+    registers.accumulator = result8;
+    check_zf_and_sf(result8);
   }
 
 }

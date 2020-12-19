@@ -210,6 +210,22 @@ namespace fc
     void operate_inc(uint16_t);
     // DEC 指令（将地址中的值自减，影响 S/ZF）
     void operate_dec(uint16_t);
+    // LAX 指令（将地址中的值加载到寄存器 A 和 X 中，影响 Z/SF，非法指令）
+    void operate_lax(uint16_t);
+    // SAX 指令（将寄存器 A 与寄存器 X 相与的结果存储到内存中）
+    void operate_sax(uint16_t);
+    // DCP 指令（自减内存中的值并与寄存器 A 中的值做比较，影响 C/Z/SF）
+    void operate_dcp(uint16_t);
+    // ISB 指令（自增内存，然后与寄存器 A 做带进位减法，影响 C/V/Z/SF）
+    void operate_isb(uint16_t);
+    // SLO 指令（对内存中的值进行算数左移，并与寄存器 A 做或运算，影响 C/Z/SF）
+    void operate_slo(uint16_t);
+    // RLA 指令（对内存中的值进行循环左移，并与寄存器 A 做与运算，影响 C/Z/SF）
+    void operate_rla(uint16_t);
+    // SRE 指令（逻辑右移内存中的值后做异或运算，影响 C/Z/SF）
+    void operate_sre(uint16_t);
+    // RRA 指令（循环右移内存中的值后与寄存器 A 做带进位加法，影响 C/V/Z/SF）
+    void operate_rra(uint16_t);
 
 
   public:
